@@ -1,0 +1,26 @@
+{
+  "name": "bioinfo_shx",
+  "version": "0.0.1",
+  "description": "bash command,written in shelljs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beneon/bioinfoShellJS.git"
+  },
+  "keywords": [
+    "shelljs",
+    "bash"
+  ],
+  "author": "ben",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/beneon/bioinfoShellJS/issues"
+  },
+  "homepage": "https://github.com/beneon/bioinfoShellJS#readme",
+  "dependencies": {
+    "shelljs": "^0.7.8"
+  }
+}
