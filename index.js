@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const shell = require('shelljs');
 shell.cd(dataRootPath)
+console.log("begin");
 function noThenMkdir(dirname){
   var filelist = Array.from(shell.ls())
   if(filelist.indexOf(dirname)<0){
@@ -70,5 +71,6 @@ shell.cd('trimmer_result')
 var hg19Index = path.join(dataRootPath,"bowtie2_hg19","hg19_only_chromosome")
 var outputDir = path.join(dataRootPath,"tophat_result")
 batchProcess('unmap',(e,coreFName)=>{
-  shell.exec(`nohup tophat2 -p 6 -o ${outputDir} ${hg19Index} ${e}1.fq.gz ${e}2.fq.gz > log_${e} 2>&1 &`)
+  // shell.exec(`nohup tophat2 -p 6 -o ${outputDir} ${hg19Index} ${e}1.fq.gz ${e}2.fq.gz > log_${e} 2>&1 &`)
+  console.log(`tophat2 -p 4 -o ${outputDir}_${e} ${hg19Index} ${e}1.fq.gz ${e}2.fq.gz > log_${e} 2>&1`)
 })
