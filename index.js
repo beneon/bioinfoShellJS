@@ -13,11 +13,15 @@ function noThenMkdir(dirname){
 function unduplicate(arr){
   return Array.from(new Set(arr))
 }
-function batchProcess(prev,cmd){
-  var commonName = shell.ls(prev+"*").map(e=>e.replace(/\d\.fq\.gz/,""))
+function getCommonName(prefix){
+  var commonName = shell.ls(prefix+"*").map(e=>e.replace(/\d\.fq\.gz/,""))
   commonName = unduplicate(commonName)
+  return commonName
+}
+function batchProcess(prefix,cmd){
+  var commonName = getCommonName(prefix)
   commonName.forEach(e=>{
-    var coreFName = e.replace(new RegExp("^"+prev),"")
+    var coreFName = e.replace(new RegExp("^"+prefix),"")
     cmd(e,coreFName)
   })
 }
@@ -70,7 +74,15 @@ noThenMkdir('tophat_result')
 shell.cd('trimmer_result')
 var hg19Index = path.join(dataRootPath,"bowtie2_hg19","hg19_only_chromosome")
 var outputDir = path.join(dataRootPath,"tophat_result")
-batchProcess('unmap',(e,coreFName)=>{
-  // shell.exec(`nohup tophat2 -p 6 -o ${outputDir} ${hg19Index} ${e}1.fq.gz ${e}2.fq.gz > log_${e} 2>&1 &`)
-  console.log(`tophat2 -p 4 -o ${outputDir}_${e} ${hg19Index} ${e}1.fq.gz ${e}2.fq.gz > log_${e} 2>&1`)
-})
+var cmd = getCommonName('unmap').map(
+  e=>{
+    return `nohup tophat2 -p 6 -o ${outputDir} ${hg19Index} ${e}1.fq.gz ${e}2.fq.gz > log_$``{e} 2>&1`
+  }
+).join('\n')
+console.log(cmd);
+shell.exec(cmd)
+shell.exec(`
+  rmdir fastqc_result
+  rmdir trimmer_result
+  rmdir tophat_result
+  `)
