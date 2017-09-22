@@ -76,13 +76,8 @@ var hg19Index = path.join(dataRootPath,"bowtie2_hg19","hg19_only_chromosome")
 var outputDir = path.join(dataRootPath,"tophat_result")
 var cmd = getCommonName('unmap').map(
   e=>{
-    return `nohup tophat2 -p 6 -o ${outputDir} ${hg19Index} ${e}1.fq.gz ${e}2.fq.gz > log_$``{e} 2>&1`
+    return `nohup tophat2 -p 6 -o ${e}_${outputDir} ${hg19Index} ${e}1.fq.gz ${e}2.fq.gz > log_${e} 2>&1`
   }
 ).join('\n')
 console.log(cmd);
 shell.exec(cmd)
-shell.exec(`
-  rmdir fastqc_result
-  rmdir trimmer_result
-  rmdir tophat_result
-  `)

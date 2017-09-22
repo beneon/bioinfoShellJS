@@ -16,7 +16,7 @@ function getCommonName(prefix){
   return commonName
 }
 
-var cmd = getCommonName('package').map(
+var cmd = getCommonName('unmap').map(
   e=>{
     return `nohup tophat2 -p 6 -o ${outputDir} ${hg19Index} ${e}1.fq.gz ${e}2.fq.gz > prefix_${e} 2>&1`
   }
